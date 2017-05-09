@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+#title {
+  background-color: rgba(230, 230, 230, 0.6);
+  color: black;
+  border-radius: 4px;
+  padding: 16px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin: 8px;
+  display: block;
+  /*position: absolute;*/
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
+#title h1 {
+  font-size: 20px;
+  margin-top: 8px;
+}
+
+#project-nav {
+  padding-left: 0;
+  list-style-type: none;
+  text-align: center;
+}
+
+#project-nav li {
+  display: inline-block;
+}
+
+#project-nav a, a:visited{
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  padding: 4px;
+  background-color: rgba(20, 20, 20, 0.5);
+}
+
+#project-nav a:hover {
+  background-color: yellow;
+  color: black;
+}
+
+#past-project {
+  margin-right: 10px;
+}
+#next-project {
+  margin-left: 10px;
+}

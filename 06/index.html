@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta charset="utf-16">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title id="page-title"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js" type="text/javascript"></script>
+    <script>window.THREE || document.write('<script src="../src/three.min.js" type="text/javascript"><\/script>')</script>
+    <link href='../src/style.css' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div id="title">
+      <h1 id="project-name"></h1>
+      <ul id="project-nav">
+        <li id="past-project"></li>
+        <li id="next-project"></li>
+      </ul>
+    </div>
+    <div id="container">
+      <!-- SHADER GETS DRAWN HERE -->
+    </div>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+    void main() {
+      gl_Position = vec4( position, 1.0 );
+    }
+    </script>
+
+    <script id="fragmentShader" type="x-shader/x-fragment">
+
+    #ifdef GL_ES
+    precision mediump float;
+    #endif
+
+    // Warped Hex
+// By: Brandon Fogerty
+// xdpixel.com
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+#extension GL_OES_standard_derivatives : enable
+
+uniform float u_time;
+uniform vec2 u_resolution;
+
+float c( vec2 p ) {
+	//p.y += mod( floor(p.x), 4.0) * 0.5;
+	//p = abs( fract(p)- 0.5 );
+	//return 1.-abs( max(p.x*1.5 + p.y, p.y * 20.0) - 1.0 )*1. ;
+	return (length(fract(p)-.5)-.4)*4.3;
+}
+
+void main( void ) {
+	vec2 uv = ( gl_FragCoord.xy / u_resolution.xy ) * 2.0 - 1.0;
+	uv.x *= u_resolution.x / u_resolution.y;
+	uv/=dot(uv/2.,uv);
+	uv.x+=u_time*0.005;uv.y+=u_time*0.01;
+	gl_FragColor = vec4( vec3(c(uv * sin(u_time/20.0)), c(uv * sin(u_time/10.0)), c(uv * cos(u_time/10.0))), 1.0 );
+}
+
+</script>
+<script src="../src/setup.js" type="text/javascript"></script>
+<script type="text/javascript">
+      // set project's number and name
+      projectSetup(6,"Force Field");
+</script>
+</body>
+</html>

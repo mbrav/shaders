@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta charset="utf-16">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title id="page-title"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js" type="text/javascript"></script>
+    <script>window.THREE || document.write('<script src="../src/three.min.js" type="text/javascript"><\/script>')</script>
+    <link href='../src/style.css' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div id="title">
+      <h1 id="project-name"></h1>
+      <ul id="project-nav">
+        <li id="past-project"></li>
+        <li id="next-project"></li>
+      </ul>
+    </div>
+    <div id="container">
+      <!-- SHADER GETS DRAWN HERE -->
+    </div>
+      <script id="vertexShader" type="x-shader/x-vertex">
+      void main() {
+        gl_Position = vec4( position, 1.0 );
+      }
+      </script>
+
+      <script id="fragmentShader" type="x-shader/x-fragment">
+
+      uniform vec2 u_resolution;
+      uniform vec2 u_mouse;
+      uniform float u_time;
+
+      void main(){
+          vec2 st = gl_FragCoord.xy/u_resolution.xy;
+          st.x *= u_resolution.x/u_resolution.y;
+          vec3 color = vec3(0.0);
+
+          vec2 pos = vec2(0.5)-st;
+
+          float r = length(pos)*2.0;
+          float a = atan(pos.y,pos.x);
+
+          float f = sin(a*2.+u_time);
+          // f = abs(cos(a*2.));
+          // f = abs(cos(a*2.5))*.5+.3;
+          // f = abs(cos(a*12.)*sin(a*3.))*.8+.1;
+          // f = smoothstep(-.5,1., cos(a*10.))*0.2+0.5;
+
+          color = vec3( 1.-step(f,r));
+          color = vec3( 1.-smoothstep(f,f+-0.5,r));
+
+          gl_FragColor = vec4(color, 1.0);
+      }
+      </script>
+    </script>
+<script src="../src/setup.js" type="text/javascript"></script>
+<script type="text/javascript">
+      // set project's number and name
+      projectSetup(2,"Quantum State");
+</script>
+</body>
+</html>

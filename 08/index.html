@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <meta charset="utf-16">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title id="page-title"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js" type="text/javascript"></script>
+    <script>window.THREE || document.write('<script src="../src/three.min.js" type="text/javascript"><\/script>')</script>
+    <link href='../src/style.css' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div id="title">
+      <h1 id="project-name"></h1>
+      <ul id="project-nav">
+        <li id="past-project"></li>
+        <li id="next-project"></li>
+      </ul>
+    </div>
+    <div id="container">
+      <!-- SHADER GETS DRAWN HERE -->
+      <script id="vertexShader" type="x-shader/x-vertex">
+      void main() {
+        gl_Position = vec4( position, 1.0 );
+      }
+      </script>
+
+      <script id="fragmentShader" type="x-shader/x-fragment">
+
+      #ifdef GL_ES
+      precision mediump float;
+      #endif
+
+      #define PI 3.14159265359
+      #define TWO_PI 6.28318530718
+
+      uniform vec2 u_resolution;
+      uniform vec2 u_mouse;
+      uniform float u_time;
+
+      // Reference to
+      // http://thndl.com/square-shaped-shaders.html
+
+      void main(){
+        vec2 st = gl_FragCoord.xy/u_resolution.xy;
+        st.x *= u_resolution.x/u_resolution.y;
+        vec3 color = vec3(0.0);
+        float d = 0.0;
+
+        // Remap the space to -1. to 1.
+        st = st *2.-1.;
+
+        // Number of sides of your shape
+        int N = 3;
+
+        // Angle and radius from the current pixel
+        float a = atan(st.x,st.y)+PI;
+        float r = TWO_PI/float(N)*sin(u_time/10.);
+
+        // Shaping function that modulate the distance
+        d = cos(floor(0.9+a/r)*r-a)*length(st);
+
+        color = vec3(smoothstep(.4,tan(u_time/3.123),d), smoothstep(.4,sin(u_time/7.235),d), step(cos(u_time/11.57),d));
+        // color = vec3(d);
+
+        gl_FragColor = vec4(color,1.0);
+      }
+
+
+  </script>
+<script src="../src/setup.js" type="text/javascript"></script>
+<script type="text/javascript">
+      // set project's number and name
+      projectSetup(8  ,"Tearlines");
+</script>
+</body>
+</html>
